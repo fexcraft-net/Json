@@ -130,27 +130,27 @@ public class JsonHandler {
 			if(isw.starts(']')) isw.next();
 			return root;
 		}
-
-		private static JsonValue<?> parseValue(String val){
-			val = val.trim();
-			if(val.equals("null")){
-				return new JsonValue<String>(val);//new JsonObject<Object>(null);
-			}
-			else if(Pattern.matches(NUMBER, val)){
-				long leng = Long.parseLong(val);
-				if(leng < Integer.MAX_VALUE){
-					return new JsonValue<>((int)leng);
-				}
-				else return new JsonValue<>(leng);
-			}
-			else if(Pattern.matches(FLOATN, val)){
-				return new JsonValue<>(Float.parseFloat(val));
-			}
-			else if(val.equals("true")) return new JsonValue<>(true);
-			else if(val.equals("false")) return new JsonValue<>(false);
-			else return new JsonValue<>(val);
-		}
 		
+	}
+
+	public static JsonValue<?> parseValue(String val){
+		val = val.trim();
+		if(val.equals("null")){
+			return new JsonValue<String>(val);//new JsonObject<Object>(null);
+		}
+		else if(Pattern.matches(NUMBER, val)){
+			long leng = Long.parseLong(val);
+			if(leng < Integer.MAX_VALUE){
+				return new JsonValue<>((int)leng);
+			}
+			else return new JsonValue<>(leng);
+		}
+		else if(Pattern.matches(FLOATN, val)){
+			return new JsonValue<>(Float.parseFloat(val));
+		}
+		else if(val.equals("true")) return new JsonValue<>(true);
+		else if(val.equals("false")) return new JsonValue<>(false);
+		else return new JsonValue<>(val);
 	}
 	
 	public static class ISW {
@@ -350,7 +350,7 @@ public class JsonHandler {
 			else if(entry.getValue() instanceof String){
 				json.add(entry.getKey(), entry.getValue() + "");
 			}
-			else json.add(entry.getKey(), Parser.parseValue(entry.getValue() + ""));
+			else json.add(entry.getKey(), parseValue(entry.getValue() + ""));
 		}
 		return json;
 	}
@@ -367,7 +367,7 @@ public class JsonHandler {
 			else if(obj instanceof String){
 				json.add(obj + "");
 			}
-			else json.add(Parser.parseValue(obj + ""));
+			else json.add(parseValue(obj + ""));
 		}
 		return json;
 	}
